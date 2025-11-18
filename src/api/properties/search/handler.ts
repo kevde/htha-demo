@@ -1,7 +1,7 @@
 import express from 'express';
 import { query } from 'utils/database';
 import { validateSearchParams } from './logic/validate-params';
-import { getPropertiesWithRangeMarker } from './logic/price-range-decorator';
+import { getPropertiesWithRangeMarker, getPropertiesWithRangeMarkerFromList } from './logic/price-range-decorator';
 import { generateQueryPayload } from './logic/generate-query-payload';
 import { Property } from 'types';
 export const searchPropertyHandler = async (req: express.Request, res: express.Response) => {
@@ -15,7 +15,8 @@ export const searchPropertyHandler = async (req: express.Request, res: express.R
     // Simple in-memory search using sample data for integration/testing
     const queryPayload = generateQueryPayload(propertyParams);
     let results: Property[] = await query(queryPayload) as Property[];
-    results = await getPropertiesWithRangeMarker(results);
+    // Decorate based on the result set's own average (not the whole DB)
+    results = getPropertiesWithRangeMarkerFromList(results, results);
 
     return res.status(200).json({ message: 'Search results', data: results });
   } catch (error) {

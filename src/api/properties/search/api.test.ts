@@ -1,6 +1,7 @@
 import express from 'express';
 import request from 'supertest';
 import { routes } from '../../../routes';
+import * as dbUtils from '../../../utils/database';
 import { SampleProperties } from './test/fixtures';
 
 describe('Properties Search API (integration)', () => {
@@ -10,7 +11,7 @@ describe('Properties Search API (integration)', () => {
     app = express();
     app.use(express.json());
     routes(app);
-
+    await dbUtils.reset();
     // Generate properties first
     await request(app).post('/properties').send(SampleProperties[0]).expect(201);
     await request(app).post('/properties').send(SampleProperties[1]).expect(201);
