@@ -4,15 +4,11 @@ Simple TypeScript + Express demo for property listings (local, in-memory store).
 
 ## Overview
 
-This repository contains a small Express server written in TypeScript providing endpoints to create and search property records. It's intentionally lightweight and uses an in-memory store for fast iteration and testability.
+A small TypeScript + Express REST API for creating and searching property records using an in-memory store.
 
 ## Purpose for HTHA
 
-This REST API was created for HTHA to provide basic property search and creation functionality. The primary goals are:
-- Allow creating property records via `POST /properties`.
-- Allow searching properties via `GET /properties/search` with support for nested address fields and numeric range queries (e.g., price ranges).
-
-Planned enhancement: implement average pricing calculations for property assets (e.g., compute and expose average prices by suburb/city or other segments) so HTHA can analyse market values and asset portfolios.
+Built for HTHA to support property creation and search. Planned enhancement: compute and expose average pricing metrics (by suburb/city) for property asset analysis.
 
 Key features implemented during development:
 - TypeScript setup (`tsconfig.json`) and build scripts.
