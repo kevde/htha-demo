@@ -27,19 +27,16 @@ describe('PriceRangeDecorator', () => {
   });
 
   it('should decorate property with a price range marker based on the average price', async () => {
-    const propertiesWithRangeMarker = await getPropertiesWithRangeMarkerFromList(propertiesInQuestion, propertiesInQuestion);
+    const propertiesWithRangeMarker = await getPropertiesWithRangeMarkerFromList(propertiesInQuestion, SampleProperties);
     expect(propertiesWithRangeMarker).toEqual([
-      { ...SampleProperties[0], priceRangeMarker: 'Below Average' },
-      { ...SampleProperties[1], priceRangeMarker: 'Average' },
-      { ...SampleProperties[2], priceRangeMarker: 'Above Average' },
+      { ...SampleProperties[0], averageSuburbPrice: 100000, priceRangeMarker: 'Average' },
+      { ...SampleProperties[1], averageSuburbPrice: 200000, priceRangeMarker: 'Average' },
+      { ...SampleProperties[2], averageSuburbPrice: 400000, priceRangeMarker: 'Below Average' },
     ]);
   });
 
   it(`should generate priceRangeMarker of a property based on the other property's suburb`, async () => {
-    const suburbProperty = SampleProperties.find(
-      (property) => property.address.suburb === 'Hollywood'
-    );
-
+    const suburbProperty = SampleProperties[4]; // Hollywood property priced at 500000
     const propertiesWithRangeMarker = await getPropertiesWithRangeMarker([suburbProperty!]);
     const decoratedSuburbProperty = propertiesWithRangeMarker.find(
       (property: Property) => property.address.suburb === 'Hollywood'

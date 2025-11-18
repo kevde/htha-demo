@@ -24,19 +24,25 @@ const getPropertyRangeMarker = (property: Property, averagePrice: number) => {
 export const getPropertiesWithRangeMarker = async (
   properties: Array<Property>
 ): Promise<Array<Property>> => {
-  // Use the full dataset from the DB to compute comparative averages
-  const propertiesInSuburb: Property[] = await query({}) as Property[];
+  const suburbs = _.uniq(properties.map(prop => prop.address.suburb));
+  const propertiesInSuburb: Property[] = await query({ 'address.suburb': { in: suburbs } }) as Property[];
   return getPropertiesWithRangeMarkerFromList(properties, propertiesInSuburb);
 };
 
 export const getPropertiesWithRangeMarkerFromList = (properties: Property[], propertiesInSuburb: Property[]): Property[] => {
-  // Compute a single comparative average from the provided list and mark each property
-  const overallAverage = getAveragePrice(propertiesInSuburb);
+  const suburbs = _.uniq(properties.map(prop => prop.address.suburb));
+  const averagePricesBySuburb: Record<string, number> = {};
+
+  for (const suburb of suburbs) {
+    averagePricesBySuburb[suburb] = getAveragePrice(propertiesInSuburb.filter(prop => prop.address.suburb === suburb));
+  }
 
   return properties.map((property) => {
-    const priceRangeMarker = getPropertyRangeMarker(property, overallAverage);
+    const averageSuburbPrice = averagePricesBySuburb[property.address.suburb];
+    let priceRangeMarker = getPropertyRangeMarker(property, averageSuburbPrice);
     return {
       ...property,
+      averageSuburbPrice,
       priceRangeMarker,
     };
   });

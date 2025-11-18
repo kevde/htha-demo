@@ -27,14 +27,14 @@ export const SampleProperties: Property[] = [
     id: '4',
     title: 'Hollywood Villa 2',
     description: 'Luxurious and spacious',
-    price: 200000,
+    price: 400000,
     address: { street: '57 Maple Ave', city: 'Los Angeles', state: 'CA', zipCode: '1103', suburb: 'Hollywood' },
   },
   {
     id: '5',
     title: 'Hollywood Villa 3',
     description: 'Luxurious and spacious',
-    price: 400000,
+    price: 500000,
     address: { street: '58 Maple Ave', city: 'Los Angeles', state: 'CA', zipCode: '1103', suburb: 'Hollywood' },
   },
 ];

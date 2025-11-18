@@ -52,11 +52,11 @@ describe('Properties Search API (integration)', () => {
     expect(res.body.data.length).toBeGreaterThanOrEqual(1);
     expect(res.body.data[0].address.suburb).toBe(suburb);
     expect(res.body.data[0].priceRangeMarker).toBe(
-      'Average'
+      'Below Average'
     );
     expect(res.body.data[1].address.suburb).toBe(suburb);
     expect(res.body.data[1].priceRangeMarker).toBe(
-      'Below Average'
+      'Average'
     );
     expect(res.body.data[2].address.suburb).toBe(suburb);
     expect(res.body.data[2].priceRangeMarker).toBe(
